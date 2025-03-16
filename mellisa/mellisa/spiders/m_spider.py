@@ -22,11 +22,11 @@ class ScrapeParameters(scrapy.Spider):
         with open(file_path, "r") as f:
             return [line.strip() for line in f if line.strip()] 
 
-    def returnNumData(self, data_len):
+    def return_num_data(self, data_len):
         print("")
         return print(f"[✓] Total number of scraped parameter/s from page: {data_len}")
 
-    def returnNone(self, data_len):
+    def return_none(self, data_len):
          if data_len == 0:
             print("[!] Page might not contain any parameter/s to be extracted, maybe try another one?")
             time.sleep(2)
@@ -56,8 +56,8 @@ class ScrapeParameters(scrapy.Spider):
         misc = Misc()
         if self.datas:
             misc.misc_saving()
-            self.returnNumData(self.data_len)
+            self.return_num_data(self.data_len)
 
             misc.misc_output()
         else:
-            self.returnNone(self.data_len)
+            self.return_none(self.data_len)
