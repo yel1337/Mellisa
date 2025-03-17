@@ -20,5 +20,5 @@ mellisa_ascii = r"""
 
 Disclaimer: If you lack proper authorization, do not proceed.
 
-example: python mellisa.py www.example.com
+example: python3 mellisa.py https://www.google.com
     """

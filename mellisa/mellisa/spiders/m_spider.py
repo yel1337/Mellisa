@@ -8,6 +8,7 @@ from items import MellisaItem
 class ScrapeParameters(scrapy.Spider):
     name = "param_spider"
     start_urls = []
+
     def __init__(self, url=None, start_urls=None, *args, **kwargs):
         super(ScrapeParameters, self).__init__(*args, **kwargs)
         self.datas = []
@@ -21,16 +22,16 @@ class ScrapeParameters(scrapy.Spider):
     def load_xpath(self, file_path):
         with open(file_path, "r") as f:
             return [line.strip() for line in f if line.strip()] 
-
+    
+    # Return Num Callback
     def return_num_data(self, data_len):
-        print("")
-        return print(f"[✓] Total number of scraped parameter/s from page: {data_len}")
-
+        if data_len > 0: 
+            return True
+    
+    # Return None Callback
     def return_none(self, data_len):
-         if data_len == 0:
-            print("[!] Page might not contain any parameter/s to be extracted, maybe try another one?")
-            time.sleep(2)
-            print("[!] No parameter/s were scraped from the page")
+        if data_len == 0:
+            return True 
 
     def parse(self, response):
         path = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/mellisa/wordlist.txt")
@@ -40,10 +41,7 @@ class ScrapeParameters(scrapy.Spider):
         loader = ItemLoader(item=MellisaItem(), response=response)
 
         if isinstance(xpaths, list):
-             xpaths = xpaths[0] if xpaths else ""
-
-        misc = Misc()
-        misc.misc_start()
+            xpaths = xpaths[0] if xpaths else ""
 
         self.datas = response.xpath(xpaths).extract()
         self.data_len = len(self.datas)
@@ -55,9 +53,10 @@ class ScrapeParameters(scrapy.Spider):
     def closed(self, reason):
         misc = Misc()
         if self.datas:
-            misc.misc_saving()
+            misc.misc_saving(self.datas, self.return_num_data(self.data_len))
             self.return_num_data(self.data_len)
 
             misc.misc_output()
-        else:
-            self.return_none(self.data_len)
+        elif self.data_len == 0: 
+            misc.misc_none()
+            
