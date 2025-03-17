@@ -9,7 +9,7 @@ This Python script scans web pages to extract potential URL parameters, form fie
 
 **1. Identifying Injection Points** – It automates the discovery of URL parameters, form fields, and hidden inputs that could be exploited for SQL injection.
 
-**2. Reducing Manual Effort** – Security researchers and penetration testers don’t need to manually inspect pages; the script quickly gathers potential injection points.**
+**2. Reducing Manual Effort** – Security researchers and penetration testers don’t need to manually inspect pages; the script quickly gathers potential injection points.
 
 **3. Assisting in Automated Exploitation** – The extracted parameters can be fed into SQL injection testing tools like sqlmap for further exploitation.
 
@@ -31,8 +31,11 @@ This Python script scans web pages to extract potential URL parameters, form fie
 # Usage 
 
 - Supports both "https://" and "http://" websites
-- Running the script: python3 mellisa.py <url>
+- Running the script:
+
+      python3 mellisa.py <url>
 - Example:
+  
       python3 mellisa.py https://www.google.com/
   
 Optional Arguments:
