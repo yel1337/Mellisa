@@ -1,6 +1,9 @@
 import time
 from datetime import datetime
 from custom.log.log_custom import log_level
+from misc.messages import Messages
+
+msg = Messages()
 
 class Misc:
     def time_of_execution(self, message, datas=None, return_none_callback=None, return_data_callback=None):
@@ -13,24 +16,20 @@ class Misc:
 
         log = log_level(datas, message, return_none_callback, return_data_callback)
 
-        if message in ["Scraping...", 
-                       "Saving...", 
-                       "PARAMETERS FOUND",
-                       "Page might not contain any parameter/s to be extracted, maybe try another one?"]:
+        if message in msg.for_info:
+            return f"{execution_time} {log} {message}"
+        elif message in msg.for_warning:
             return f"{execution_time} {log} {message}"
 
-    def misc_start(self, start_spider):
-        if start_spider:
-            print(self.time_of_execution("Crawling..."))
-            time.sleep(2)
+    def misc_start(self):
+        print(self.time_of_execution(msg.for_info[0]))
+        time.sleep(2)
     
     def misc_none(self):
-        message = "Page might not contain any parameter/s to be extracted, maybe try another one?"
-        print(self.time_of_execution(message))
+        print(self.time_of_execution(msg.for_warning[0]))
 
     def misc_has_len(self, data_len):
-        message = f"Total number of scraped parameter/s from page: {data_len}"
-        return message
+        return  f"{msg.for_info[4]} {data_len}"
     
     def misc_output(self):
         print("")
@@ -39,11 +38,9 @@ class Misc:
 
     def misc_saving(self, datas, return_none_callback=None, return_data_callback=None):
         if datas:
-            print(self.time_of_execution("PARAMETERS FOUND", datas, return_data_callback))
-            print(self.time_of_execution("Scraping...", datas, return_none_callback, return_data_callback))
-            print(self.time_of_execution("Saving...", datas, return_none_callback, return_data_callback))
+            print(self.time_of_execution(msg.for_info[2], datas, return_data_callback))
+            print(self.time_of_execution(msg.for_info[1], datas, return_none_callback, return_data_callback))
+            print(self.time_of_execution(msg.for_info[2], datas, return_none_callback, return_data_callback))
             time.sleep(2)
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} [INFO] Total number of scraped parameter/s from page: {len(datas)}")
+            print(f"{self.time_of_execution(msg.for_info[4])}: {len(datas)}")
             time.sleep(1)
-
-    
