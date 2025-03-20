@@ -33,10 +33,10 @@ This Python script scans web pages to extract potential URL parameters, form fie
 - Supports both "https://" and "http://" websites
 - Running the script:
 
-      python3 mellisa.py <url>
+      python mellisa.py <url>
 - Example:
   
-      python3 mellisa.py https://www.google.com/
+      python mellisa.py https://www.google.com/
   
 Optional Arguments:
     
