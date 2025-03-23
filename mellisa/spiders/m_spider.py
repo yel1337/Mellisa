@@ -32,6 +32,7 @@ class ScrapeParameters(scrapy.Spider):
     def return_none(self, data_len):
         if data_len == 0:
             return True
+        
     def _add_val_(self, datas, response):
         loader = ItemLoader(item=MellisaItem(), response=response)
         loader.add_value("item_param", datas)
