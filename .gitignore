@@ -3,3 +3,8 @@
 .vscode
 .swn
 .swo
+.pyc
+__pycache__/
+.pytest_cache/
+v/cache/
+venv/
