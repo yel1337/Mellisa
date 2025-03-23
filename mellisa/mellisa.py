@@ -21,7 +21,7 @@ def run_spider(output_file=None, **kwargs):
     settings = get_project_settings()
     spider_name = "param_spider"
 
-    output_folder = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/mellisa/output")
+    output_folder = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/output")
     os.makedirs(output_folder, exist_ok=True)
     output_path = os.path.join(output_folder, output_file)
 

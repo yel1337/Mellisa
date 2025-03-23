@@ -31,32 +31,39 @@ class ScrapeParameters(scrapy.Spider):
     # Return None Callback
     def return_none(self, data_len):
         if data_len == 0:
-            return True 
+            return True
+    def _add_val_(self, datas, response):
+        loader = ItemLoader(item=MellisaItem(), response=response)
+        loader.add_value("item_param", datas)
+
+        return loader.load_item()
 
     def parse(self, response):
-        path = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/mellisa/wordlist.txt")
+        path = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/wordlist.txt")
         
         xpaths = self.load_xpath(path)
-
-        loader = ItemLoader(item=MellisaItem(), response=response)
 
         if isinstance(xpaths, list):
             xpaths = xpaths[0] if xpaths else ""
 
-        self.datas = response.xpath(xpaths).extract()
-        self.data_len = len(self.datas)
+        extracted_datas = response.xpath(xpaths).extract()
+        self.datas.extend(extracted_datas)
 
-        loader.add_value("item_param", self.datas)
+        load_item = self._add_val_(extracted_datas, response)
+        yield load_item
 
-        yield loader.load_item()
+        if load_item:
+            next_page = response.xpath("//li/a/@href").get()
+            if next_page:
+                yield response.follow(next_page, callback=self.parse)
 
     def closed(self, reason):
         misc = Misc()
+        data_len = len(self.datas)
         if self.datas:
-            misc.misc_saving(self.datas, self.return_num_data(self.data_len))
-            self.return_num_data(self.data_len)
-
+            misc.misc_saving(self.datas, self.return_num_data(data_len))
+            self.return_num_data(data_len)
             misc.misc_output()
-        elif self.data_len == 0: 
+        elif data_len == 0: 
             misc.misc_none()
             
