@@ -6,5 +6,6 @@
 .pyc
 __pycache__/
 .pytest_cache/
+err/
 v/cache/
 venv/

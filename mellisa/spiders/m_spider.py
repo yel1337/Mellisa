@@ -39,13 +39,28 @@ class ScrapeParameters(scrapy.Spider):
 
         return loader.load_item()
 
+    def crawl_page(self, query, response):
+        next_pages = response.xpath(query)
+        urls = next_pages.getall()
+
+        for url in urls:
+            if url:
+                yield response.follow(url, callback=self.parse)
+
     def parse(self, response):
+        # xpath queries for crawling page CONTENTS
         path = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/wordlist.txt")
+        # xpath queries for crawling href which redirects to PAGES
+        query = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/page_queries.txt")
         
         xpaths = self.load_xpath(path)
+        query_xpath = self.load_xpath(query)
 
         if isinstance(xpaths, list):
             xpaths = xpaths[0] if xpaths else ""
+
+        if isinstance(query_xpath, list):
+            query_xpath = query_xpath[0] if query_xpath else ""
 
         extracted_datas = response.xpath(xpaths).extract()
         self.datas.extend(extracted_datas)
@@ -53,10 +68,9 @@ class ScrapeParameters(scrapy.Spider):
         load_item = self._add_val_(extracted_datas, response)
         yield load_item
 
-        if load_item:
-            next_page = response.xpath("//li/a/@href").get()
-            if next_page:
-                yield response.follow(next_page, callback=self.parse)
+        crawl_page = self.crawl_page(query_xpath, response)
+        for req in crawl_page:
+            yield req
 
     def closed(self, reason):
         misc = Misc()
