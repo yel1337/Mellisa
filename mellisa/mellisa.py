@@ -11,11 +11,13 @@ from misc.misc_prompts import Misc
 from scrapy.utils.project import get_project_settings
 import ascii
 
+
 class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
     def start_section(self, heading):
         if heading.lower() == 'positional arguments':
             heading = 'COMMANDS'
         return super().start_section(heading)
+
 
 def run_spider(output_file=None, **kwargs):
     settings = get_project_settings()
@@ -36,6 +38,7 @@ def run_spider(output_file=None, **kwargs):
     process.crawl(spider_name, **kwargs)
     process.start()
 
+
 def remove_char(domain):
     charsRemove = ["https://", "http://", "www."]
     for prefix in charsRemove:
@@ -45,6 +48,7 @@ def remove_char(domain):
     domain = re.sub(r'[\/:*?"<>|#]', '_', domain)
 
     return f"{domain}.json"
+
 
 def main():
     parser = argparse.ArgumentParser(description=ascii.description_ascii.mellisa_ascii, formatter_class=CustomHelpFormatter)
