@@ -13,11 +13,9 @@ __pycache__/
 .pytest_cache/
 v/cache/
 venv/
-=======
 
 # Ignore err dir
 err/ 
 
 # Ignore venv folder 
 ../myenv/
-f17f420 (update: renamed .gitignore and commented some lines for better clarity):mellisa/.gitignore
