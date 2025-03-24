@@ -20,7 +20,7 @@ jobs:
           
       - name: Replace 'unicode' with 'str' in all .py files
         run: |
-          find . -name "*.py" -exec sed -i 's/\bunicode\b/str/g' {} +
+          find . -name "*.py" -exec sed -i 's/\bbasestring\b/str/g' {} +
 
       - name: Install lint dependencies
         run: |
