@@ -1,11 +1,20 @@
-.json
-.swp
-.vscode
-.swn
-.swo
-.pyc
+# Ignore JSON output file 
+*.json
+
+# Some needs to be ignored
+*.swp
+*.vscode
+*.swn
+*.swo
+*.pyc
+
+# Ignore caches
 __pycache__/
 .pytest_cache/
-err/
 v/cache/
-venv/
+
+# Ignore err dir
+err/ 
+
+# Ignore venv folder 
+../myenv/
