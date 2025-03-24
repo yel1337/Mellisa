@@ -1,6 +1,12 @@
 # Ignore JSON output file 
 *.json
 
+# Ignore bin folder 
+bin/
+
+# Ignore lib folder
+lib/
+
 # Some needs to be ignored
 *.swp
 *.vscode
