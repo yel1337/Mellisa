@@ -13,6 +13,9 @@ __pycache__/
 .pytest_cache/
 v/cache/
 
+# Ignore lib packages
+lib/
+
 # Ignore err dir
 err/ 
 
