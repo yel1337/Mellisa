@@ -12,31 +12,28 @@ class ScrapeParameters(scrapy.Spider):
     def __init__(self, url=None, start_urls=None, *args, **kwargs):
         super(ScrapeParameters, self).__init__(*args, **kwargs)
         self.datas = []
-        self.data_len = 0 
-
+        self.data_len = 0
 
         if url:
             self.start_urls = [f"{url}"]
         elif start_urls:
-            self.start_urls = start_urls  
-
+            self.start_urls = start_urls
 
     def load_xpath(self, file_path):
         with open(file_path, "r") as f:
-            return [line.strip() for line in f if line.strip()]     
-
+            return [line.strip() for line in f if line.strip()]
 
     # Return Num Callback
+
     def return_num_data(self, data_len):
-        if data_len > 0: 
+        if data_len > 0:
             return True
 
-
     # Return None Callback
+
     def return_none(self, data_len):
         if data_len == 0:
             return True
-
 
     def _add_val_(self, datas, response):
         loader = ItemLoader(item=MellisaItem(), response=response)
@@ -44,10 +41,10 @@ class ScrapeParameters(scrapy.Spider):
 
         return loader.load_item()
 
-
     def parse(self, response):
-        path = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/wordlist.txt")
-        
+        path = os.path.join(os.path.expanduser(
+            "~"), "Mellisa_src/mellisa/wordlist.txt")
+
         xpaths = self.load_xpath(path)
 
         if isinstance(xpaths, list):
@@ -64,7 +61,6 @@ class ScrapeParameters(scrapy.Spider):
             if next_page:
                 yield response.follow(next_page, callback=self.parse)
 
-
     def closed(self, reason):
         misc = Misc()
         data_len = len(self.datas)
@@ -72,6 +68,5 @@ class ScrapeParameters(scrapy.Spider):
             misc.misc_saving(self.datas, self.return_num_data(data_len))
             self.return_num_data(data_len)
             misc.misc_output()
-        elif data_len == 0: 
+        elif data_len == 0:
             misc.misc_none()
-            

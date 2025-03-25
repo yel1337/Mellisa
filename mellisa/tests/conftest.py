@@ -1,5 +1,6 @@
 import pytest
 
+
 def pytest_addoption(parser):
     parser.addoption(
         "--xpath_query",
@@ -7,6 +8,7 @@ def pytest_addoption(parser):
         default="//title/text()",
         help="XPath query to test against test URLs"
     )
+
 
 @pytest.fixture
 def xpath_query(request):

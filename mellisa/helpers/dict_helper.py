@@ -1,4 +1,4 @@
-# Helper methods can be found here 
+# Helper methods can be found here
 
 # def help():
 #    pass

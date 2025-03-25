@@ -6,12 +6,14 @@
 import scrapy
 from itemloaders.processors import TakeFirst, MapCompose
 
+
 def remove_dup(data):
     return list(set(data))
 
+
 class MellisaItem(scrapy.Item):
-       
+
     item_param = scrapy.Field(
-        input_processor=MapCompose(str.strip), 
-        output_processor = remove_dup
+        input_processor=MapCompose(str.strip),
+        output_processor=remove_dup
     )
