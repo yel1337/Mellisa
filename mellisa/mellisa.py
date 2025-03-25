@@ -21,7 +21,8 @@ def run_spider(output_file=None, **kwargs):
     settings = get_project_settings()
     spider_name = "param_spider"
 
-    output_folder = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/output")
+    output_folder = os.path.join(os.path.expanduser("~"),
+                                 "Mellisa_src/mellisa/output")
     os.makedirs(output_folder, exist_ok=True)
     output_path = os.path.join(output_folder, output_file)
 
@@ -47,7 +48,10 @@ def remove_char(domain):
     return f"{domain}.json"
 
 def main():
-    parser = argparse.ArgumentParser(description=ascii.description_ascii.mellisa_ascii, formatter_class=CustomHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=ascii.description_ascii.mellisa_ascii,
+        formatter_class=CustomHelpFormatter
+    )
     parser.add_argument('url', help="URL of the website to crawl")  
 
     args = parser.parse_args()

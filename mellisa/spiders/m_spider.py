@@ -1,6 +1,5 @@
 import scrapy
 import os
-import time
 from misc.misc_prompts import Misc
 from scrapy.loader import ItemLoader
 from items import MellisaItem
@@ -49,9 +48,15 @@ class ScrapeParameters(scrapy.Spider):
 
     def parse(self, response):
         # xpath queries for crawling page CONTENTS
-        path = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/wordlist.txt")
+        path = os.path.join(
+            os.path.expanduser("~"),
+            "Mellisa_src/mellisa/wordlist.txt"
+        )
         # xpath queries for crawling href which redirects to PAGES
-        query = os.path.join(os.path.expanduser("~"), "Mellisa_src/mellisa/page_queries.txt")
+        query = os.path.join(
+            os.path.expanduser("~"),
+            "Mellisa_src/mellisa/page_queries.txt"
+        )
         
         xpaths = self.load_xpath(path)
         query_xpath = self.load_xpath(query)
