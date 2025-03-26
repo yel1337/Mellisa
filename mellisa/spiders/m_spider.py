@@ -4,6 +4,7 @@ from scrapy.loader import ItemLoader
 from misc.misc_prompts import Misc
 from items import MellisaItem
 
+
 class ScrapeParameters(scrapy.Spider):
     name = "param_spider"
     start_urls = []
@@ -11,36 +12,36 @@ class ScrapeParameters(scrapy.Spider):
     def __init__(self, url=None, start_urls=None, *args, **kwargs):
         super(ScrapeParameters, self).__init__(*args, **kwargs)
         self.datas = []
-        self.data_len = 0 
+        self.data_len = 0
 
         if url:
             self.start_urls = [f"{url}"]
         elif start_urls:
-            self.start_urls = start_urls  
+            self.start_urls = start_urls
 
     def load_xpath(self, file_path):
         with open(file_path, "r") as f:
-            return [line.strip() for line in f if line.strip()] 
-    
+            return [line.strip() for line in f if line.strip()]
+
     # Return Num Callback
     def return_num_data(self, data_len):
-        if data_len > 0: 
+        if data_len > 0:
             return True
-    
+
     # Return None Callback
     def return_none(self, data_len):
         if data_len == 0:
             return True
-        
+
     # Add arg to item.py
     def _add_val_item(self, datas, response):
         loader = ItemLoader(item=MellisaItem(), response=response)
         loader.add_value("item_param", datas)
 
         return loader.load_item()
-    
+
     # Add url arg to item.py
-    # A function which stores extracted href links to item.py 
+    # A function which stores extracted href links to item.py
     def _add_val_url(self, url, response):
         loader = ItemLoader(item=MellisaItem(), response=response)
         loader.add_value("urls", url)
@@ -64,7 +65,7 @@ class ScrapeParameters(scrapy.Spider):
             os.path.expanduser("~"),
             "Mellisa_src/mellisa/page_queries.txt"
         )
-        
+
         xpaths = self.load_xpath(path)
         query_xpath = self.load_xpath(query)
 
@@ -82,7 +83,7 @@ class ScrapeParameters(scrapy.Spider):
 
         crawl_page = self.crawl_page(query_xpath, response)
         load_url = self._add_val_url(crawl_page, response)
-        
+
         yield load_url
 
     def closed(self, reason):
@@ -92,6 +93,5 @@ class ScrapeParameters(scrapy.Spider):
             misc.misc_saving(self.datas, self.return_num_data(data_len))
             self.return_num_data(data_len)
             misc.misc_output()
-        elif data_len == 0: 
+        elif data_len == 0:
             misc.misc_none()
-            
