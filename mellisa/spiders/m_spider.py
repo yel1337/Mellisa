@@ -1,7 +1,7 @@
 import scrapy
 import os
-from misc.misc_prompts import Misc
 from scrapy.loader import ItemLoader
+from misc.misc_prompts import Misc
 from items import MellisaItem
 
 class ScrapeParameters(scrapy.Spider):
@@ -32,11 +32,18 @@ class ScrapeParameters(scrapy.Spider):
         if data_len == 0:
             return True
         
-    def _add_val_(self, datas, response):
+    # Add arg to item.py
+    def _add_val_item(self, datas, response):
         loader = ItemLoader(item=MellisaItem(), response=response)
         loader.add_value("item_param", datas)
 
         return loader.load_item()
+    
+    # Add url arg to item.py
+    # A function which stores extracted href links to item.py 
+    def _add_val_url(self, url, response):
+        loader = ItemLoader(item=MellisaItem(), response=response)
+        loader.add_value("urls", url)
 
     def crawl_page(self, query, response):
         next_pages = response.xpath(query)
@@ -70,12 +77,13 @@ class ScrapeParameters(scrapy.Spider):
         extracted_datas = response.xpath(xpaths).extract()
         self.datas.extend(extracted_datas)
 
-        load_item = self._add_val_(extracted_datas, response)
+        load_item = self._add_val_item(extracted_datas, response)
         yield load_item
 
         crawl_page = self.crawl_page(query_xpath, response)
-        for req in crawl_page:
-            yield req
+        load_url = self._add_val_url(crawl_page, response)
+        
+        yield load_url
 
     def closed(self, reason):
         misc = Misc()
