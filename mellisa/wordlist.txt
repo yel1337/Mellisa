@@ -1,17 +1,5 @@
-//link[contains(@href, "?")]/@href
-/html//link[contains(@href, "?")]/@href
-//a[contains(@href, "?")]/@href
-//link[contains(@href, "?")]/@href
-//script[contains(@src, '?=')]/@src
-//source[contains(@src, '?=')]/@src
-//embed[contains(@src, '?=')]/@src
-//area[contains(@href, '?=')]/@href
-//base[contains(@href, '?=')]/@href
-//frame[contains(@src, '?=')]/@src
-//input[contains(@src, '?=')]/@src
-//audio[contains(@src, '?=')]/@src
-//video[contains(@src, '?=')]/@src
-//track[contains(@src, '?=')]/@src
-//applet[contains(@code, '?=')]/@code
-//button[contains(@formaction, '?=')]/@formaction
-//command[contains(@icon, '?=')]/@icon
+//a[@href="search.php?query=admin"]
+//a[contains(@href, "search.php?query=admin")]
+//a[contains(@href, "search.php?query=admin")]
+//a[@href="search.php?query=admin"]/@href
+//a[contains(@href, "search.php?query=admin")]/@href
