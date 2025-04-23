@@ -3,7 +3,7 @@ import os
 from misc.misc_prompts import Misc
 from scrapy.loader import ItemLoader
 from items import MellisaItem
-
+from pathlib import Path
 
 class ScrapeParameters(scrapy.Spider):
     name = "param_spider"
@@ -42,9 +42,8 @@ class ScrapeParameters(scrapy.Spider):
         return loader.load_item()
 
     def parse(self, response):
-        path = os.path.join(os.path.expanduser(
-            "~"), "Mellisa_src/mellisa/wordlist.txt")
-
+        # assumes wordlist.txt is in the same dir as m_spiders.py's parent (i.e. /mellicd sa/)
+        path = Path(__file__).resolve().parent.parent / "wordlist.txt"
         xpaths = self.load_xpath(path)
 
         if isinstance(xpaths, list):

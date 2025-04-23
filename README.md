@@ -13,31 +13,57 @@ This Python script scans web pages to extract potential URL parameters, form fie
 
 **3. Assisting in Automated Exploitation** – The extracted parameters can be fed into SQL injection testing tools like sqlmap for further exploitation.
 
+> **Note:** The script now resolves `wordlist.txt` dynamically via `pathlib`, so no hard‑coded paths are required.
+
 # Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
 
-# Installation 
+# Installation
 
-1. Clone the repository:
-   - git clone https://github.com/yel1337/mellisa.git
-2. Go to project's directory:
-   - cd Mellisa
-3. Install dependencies:
-   - pip install -r requirements.txt
+```bash
+# 1. Clone the repository
+git clone https://github.com/yel1337/mellisa.git
+cd mellisa
 
-# Usage 
+# 2. (Recommended) Create and activate a virtual environment
+python3 -m venv mellisa-venv
+source mellisa-venv/bin/activate     # Windows: mellisa-venv\Scripts\activate
 
-- Supports both "https://" and "http://" websites
-- Running the script:
+# 3. Upgrade pip (optional but encouraged)
+pip install --upgrade pip
 
-      python mellisa.py <url>
-- Example:
-  
-      python mellisa.py https://www.google.com/
-  
+# 4. Install dependencies
+pip install -r requirements.txt
+```
+
+> **Why a virtual‑env?**  
+> Kali Linux and other security‑oriented distros preload tools (e.g., `mitmproxy`, `theHarvester`) that pin specific package versions.  
+> Installing Mellisa in an isolated environment prevents version conflicts and keeps system tools intact.
+
+# Usage
+
+*Run the crawler from the project root (while the virtual environment is active):*
+
+  ```bash
+  python mellisa.py <url>
+  ```
+
+  Example:
+
+  ```bash
+  python mellisa.py https://www.google.com/
+  ```
+
+#### Docker (optional)
+
+```bash
+docker build -t mellisa .
+docker run --rm mellisa https://www.example.com/
+```
+
 Optional Arguments:
     
     --h   --HELP    Show help message
