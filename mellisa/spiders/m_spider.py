@@ -18,10 +18,13 @@ class ScrapeParameters(scrapy.Spider):
             self.start_urls = [f"{url}"]
         elif start_urls:
             self.start_urls = start_urls
-
+    # ignore comments ("#") and empty lines ("//") in wordlist.txt
     def load_xpath(self, file_path):
         with open(file_path, "r") as f:
-            return [line.strip() for line in f if line.strip()]
+            return [line.strip()
+                    for line in f
+                    if line.strip() and not line.lstrip().startswith("#") and not line.lstrip().startswith("//")
+            ]
 
     # Return Num Callback
 

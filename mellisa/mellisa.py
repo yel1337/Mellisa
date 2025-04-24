@@ -2,6 +2,7 @@ import ascii
 from scrapy.utils.project import get_project_settings
 from misc.misc_prompts import Misc
 from spiders.m_spider import ScrapeParameters
+from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 import ascii.description_ascii
 import argparse
@@ -23,11 +24,14 @@ def run_spider(output_file=None, **kwargs):
     settings = get_project_settings()
     spider_name = "param_spider"
 
-    output_folder = os.path.join(
-        os.path.expanduser("~"), "Mellisa_src/mellisa/output")
-    os.makedirs(output_folder, exist_ok=True)
-    output_path = os.path.join(output_folder, output_file)
+    # directory where mellisa.py is located
+    project_root = Path(__file__).resolve().parent.parent
+    output_folder = project_root / "output"
+    output_folder.mkdir(exist_ok=True)
 
+    # full path to the output file
+    output_path = output_folder / output_file if output_file else None
+    
     if output_file:
         settings.update({
             'FEED_FORMAT': 'json',
@@ -38,7 +42,6 @@ def run_spider(output_file=None, **kwargs):
     process = CrawlerProcess(settings)
     process.crawl(spider_name, **kwargs)
     process.start()
-
 
 def remove_char(domain):
     charsRemove = ["https://", "http://", "www."]
