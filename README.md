@@ -99,7 +99,7 @@ Mellisa crawls the target and writes results to:
 Open the JSON file in your editor or run:
 
 ```bash
-# files are saved as:  output/<targethost>_<port>.json | <targetdomain>_<directory>_<directory>.json
+# files are saved as:  output/<targethost>_<port>.json | <targetdomain>_<directory>.json
 jq . output/localhost_8888.json
 ```
 The JSON should look something like this:
