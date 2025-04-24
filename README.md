@@ -68,6 +68,58 @@ Optional Arguments:
     
     --h   --HELP    Show help message
 
+## Quick Functional Test (using )NetSPI XPath-Injection Lab)
+
+This walk-through spins up NetSPI’s *Path Injection Weakness* demo locally, runs Mellisa against it, and inspects the JSON output.
+
+### 1. Set up the test target  
+
+```bash
+# Clone the lab (or your own fork)
+git clone https://github.com/NetSPI/path-injection-weakness-lab.git
+cd path-injection-weakness-lab
+
+# Start the vulnerable app (using Docker Compose)
+docker compose up -d
+# The lab now listens on http://localhost:8888/
+```
+### 2. Run Mellisa against the lab
+
+```bash
+# From a second terminal in the Mellisa repo root
+source mellisa-venv/bin/activate
+python mellisa.py http://localhost:8888/
+```
+
+Mellisa crawls the target and writes results to:
+```mellisa/output/   # relative to mellisa.py```
+
+### 3. Review Results
+
+Open the JSON file in your editor or run:
+
+```bash
+# files are saved as:  output/<targethost>_<port>.json | <targetdomain>_<directory>.json
+jq . output/localhost_8888.json
+```
+The JSON should look something like this:
+```json
+[
+  {
+    "item_param": [
+      "/css/site.css?v=AKvNjO3dCPPS0eSU1Ez8T2wI280i08yGycV9ndytL-c",
+      "/BookSearchApp.styles.css?v=OCvwvqV0ZzKYOYPf5YqKGSuS_ZPHLCdiAKW156PLJao"
+    ]
+  },
+  {
+    "item_param": [
+      "/css/site.css?v=AKvNjO3dCPPS0eSU1Ez8T2wI280i08yGycV9ndytL-c",
+      "/BookSearchApp.styles.css?v=OCvwvqV0ZzKYOYPf5YqKGSuS_ZPHLCdiAKW156PLJao"
+    ]
+  }
+]
+```
+
 # License 
 
 This project is licensed under the Apache License 2.0 

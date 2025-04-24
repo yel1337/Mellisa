@@ -1,17 +1,60 @@
-//link[contains(@href, "?")]/@href
+########################################################################
+#  Mellisa XPath Wordlist                                              #
+#  Original Author : yel1337                                           #
+#  Contributor     : JWhiteUX                                         #
+#                                                                    ##
+#  Add new XPaths below; keep one entry per line. Duplicate entries   #
+#  can be removed with: `sort -u wordlist.txt -o wordlist.txt`        #
+########################################################################
+
+##########  Links (a / link elements)  ################################
 /html//link[contains(@href, "?")]/@href
-//a[contains(@href, "?")]/@href
+/html//a[contains(@href, "?")]/@href
 //link[contains(@href, "?")]/@href
+//a[contains(@href, "?")]/@href
+//area[contains(@href, "?")]/@href
+//base[contains(@href, "?")]/@href
+
+##########  Scripts & Static Assets  ##################################
+/html//script[contains(@src, "?")]/@src
+//script[contains(@src, "?")]/@src
 //script[contains(@src, '?=')]/@src
 //source[contains(@src, '?=')]/@src
 //embed[contains(@src, '?=')]/@src
-//area[contains(@href, '?=')]/@href
-//base[contains(@href, '?=')]/@href
 //frame[contains(@src, '?=')]/@src
-//input[contains(@src, '?=')]/@src
-//audio[contains(@src, '?=')]/@src
-//video[contains(@src, '?=')]/@src
-//track[contains(@src, '?=')]/@src
-//applet[contains(@code, '?=')]/@code
-//button[contains(@formaction, '?=')]/@formaction
-//command[contains(@icon, '?=')]/@icon
+//iframe[contains(@src, "?")]/@src
+//object[contains(@data, "?")]/@data
+//object[contains(@code, '?=')]/@code
+
+##########  Media (img, audio, video, track)  #########################
+/html//img[contains(@src, "?")]/@src
+//img[contains(@src, "?")]/@src
+//audio[contains(@src, '?')]/@src
+//video[contains(@src, '?')]/@src
+//track[contains(@src, '?')]/@src
+//picture/source[contains(@srcset, '?')]/@srcset
+//img[contains(@data-src, '?')]/@data-src
+//img[contains(@data-srcset, '?')]/@data-srcset
+//img[contains(@data-href, '?')]/@data-href
+
+##########  Stylesheets & Inline CSS URLs  ############################
+/html//link[@rel='stylesheet' and contains(@href,'?')]/@href
+//style[contains(., '?')]/text()
+/html//@style[contains(., '?')]
+
+##########  Forms & Buttons  ##########################################
+/html//form[contains(@action, '?')]/@action
+//form[contains(@data-action, '?')]/@data-action
+//button[contains(@formaction, '?')]/@formaction
+//input[contains(@formaction, '?')]/@formaction
+//input[contains(@src, '?')]/@src
+
+##########  Data-Attributes (common in SPAs)  ##########################
+/html//*[@data-url and contains(@data-url,'?')]/@data-url
+/html//*[@data-href and contains(@data-href,'?')]/@data-href
+/html//*[@data-src and contains(@data-src,'?')]/@data-src
+/html//*[@data-endpoint and contains(@data-endpoint,'?')]/@data-endpoint
+
+##########  SVG & Font Assets  ########################################
+/html//svg//*[contains(@xlink:href,'?')]/@xlink:href
+/html//link[@rel='preload' and contains(@href,'?')]/@href
