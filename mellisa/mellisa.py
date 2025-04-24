@@ -25,7 +25,7 @@ def run_spider(output_file=None, **kwargs):
     spider_name = "param_spider"
 
     # directory where mellisa.py is located
-    project_root = Path(__file__).resolve().parent.parent
+    project_root = Path(__file__).resolve().parent
     output_folder = project_root / "output"
     output_folder.mkdir(exist_ok=True)
 
