@@ -62,9 +62,18 @@ def main():
     args = parser.parse_args()
 
     spider_kwargs = {}
+
+    # if flag file already exists then ascii banner will not be printed
+    flag_file = Path(".first_run_flag")
+
+    if "--help" in sys.argv or not flag_file.exists():
+        print(ascii.description_ascii.mellisa_ascii)
+
+    if not flag_file.exists():
+        not_exist = flag_file.touch()
+
     if args.url:
         domain_name = remove_char(args.url)
-        # removed ascii banner - only display on first run and --help
         spider_kwargs['start_urls'] = [args.url]
         print(f"target: {args.url}")
         run_spider(output_file=domain_name, **spider_kwargs)
