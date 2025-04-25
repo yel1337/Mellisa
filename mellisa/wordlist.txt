@@ -49,7 +49,7 @@
 //input[contains(@formaction, '?')]/@formaction
 //input[contains(@src, '?')]/@src
 
-##########  Data-Attributes (common in SPAs)  ##########################
+##########  Data-Attributes (common in SPAs)  #########################
 /html//*[@data-url and contains(@data-url,'?')]/@data-url
 /html//*[@data-href and contains(@data-href,'?')]/@data-href
 /html//*[@data-src and contains(@data-src,'?')]/@data-src
@@ -58,3 +58,42 @@
 ##########  SVG & Font Assets  ########################################
 /html//svg//*[contains(@xlink:href,'?')]/@xlink:href
 /html//link[@rel='preload' and contains(@href,'?')]/@href
+
+##########  JavaScript Files & Inline Scripts  ########################
+/html//script[@src and contains(@src, '?')]/@src
+/html//script[contains(., '?')]/text()
+
+##########  Iframes & Embeds  #########################################
+/html//iframe[contains(@src, '?')]/@src
+/html//embed[contains(@src, '?')]/@src
+/html//object[contains(@data, '?')]/@data
+
+##########  Meta Tags (Open Graph, Twitter, etc.)  ##################
+/html//meta[@property='og:image' and contains(@content, '?')]/@content
+/html//meta[@property='og:video' and contains(@content, '?')]/@content
+/html//meta[@name='twitter:image' and contains(@content, '?')]/@content
+
+##########  Anchor Tags (Links)  ######################################
+/html//a[contains(@href, '?')]/@href
+
+##########  Source Tags in Video/Audio/Picture  #######################
+/html//source[contains(@src, '?')]/@src
+/html//source[contains(@srcset, '?')]/@srcset
+
+##########  Icons & Favicons  #########################################
+/html//link[@rel='icon' and contains(@href, '?')]/@href
+/html//link[@rel='shortcut icon' and contains(@href, '?')]/@href
+/html//link[@rel='apple-touch-icon' and contains(@href, '?')]/@href
+
+##########  Manifest & JSON Resources  ################################
+/html//link[@rel='manifest' and contains(@href, '?')]/@href
+/html//script[@type='application/ld+json' and contains(., '?')]/text()
+
+##########  Background Images in Inline Styles  #######################
+/html//*[@style and contains(@style, 'url(') and contains(@style, '?')]/@style
+
+##########  Canvas & WebGL Resources  #################################
+/html//canvas[@data-src and contains(@data-src, '?')]/@data-src
+
+##########  Custom Data Attributes (Generic Catch-All)  ###############
+/html//*[@* and contains(., '?')]/@*
