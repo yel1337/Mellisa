@@ -68,7 +68,7 @@ Optional Arguments:
     
     --h   --HELP    Show help message
 
-## Quick Functional Test (using )NetSPI XPath-Injection Lab)
+## Quick Functional Test (w/NetSPI XPath-Injection Lab)
 
 This walk-through spins up NetSPI’s *Path Injection Weakness* demo locally, runs Mellisa against it, and inspects the JSON output.
 
