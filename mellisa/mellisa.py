@@ -64,11 +64,10 @@ def main():
     spider_kwargs = {}
     if args.url:
         domain_name = remove_char(args.url)
-        print(ascii.description_ascii.mellisa_ascii)
+        # removed ascii banner - only display on first run and --help
         spider_kwargs['start_urls'] = [args.url]
         print(f"target: {args.url}")
         run_spider(output_file=domain_name, **spider_kwargs)
-
 
 if __name__ == "__main__":
     main()
