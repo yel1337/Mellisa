@@ -97,7 +97,7 @@ docker compose up -d
 ```bash
 # From a second terminal in the Mellisa repo root
 source mellisa-venv/bin/activate
-python mellisa.py http://localhost:8888/
+./mellisa.sh http://localhost:8888/
 ```
 
 Mellisa crawls the target and writes results to:
