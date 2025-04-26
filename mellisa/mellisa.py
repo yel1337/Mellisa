@@ -6,12 +6,13 @@ from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 import ascii.description_ascii
 import argparse
+import atexit
+import signal
 import os
 import sys
 import re
 mellisa = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, mellisa)
-
 
 class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
     def start_section(self, heading):
@@ -53,25 +54,18 @@ def remove_char(domain):
 
     return f"{domain}.json"
 
-
 def main():
-    parser = argparse.ArgumentParser(
-        description=ascii.description_ascii.mellisa_ascii, formatter_class=CustomHelpFormatter)
-    parser.add_argument('url', help="URL of the website to crawl")
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    flag_file = os.path.join(script_dir, ".first_run_flag")
 
+    parser = argparse.ArgumentParser(description=ascii.description_ascii.mellisa_ascii,
+                                    formatter_class=CustomHelpFormatter)
+    parser.add_argument('url', help="URL of the website to crawl") 
     args = parser.parse_args()
-
     spider_kwargs = {}
 
-    # if flag file already exists then ascii banner will not be printed
-    flag_file = Path(".first_run_flag")
-
-    if "--help" in sys.argv or not flag_file.exists():
+    if "--help" in sys.argv:
         print(ascii.description_ascii.mellisa_ascii)
-
-    if not flag_file.exists():
-        not_exist = flag_file.touch()
-
     if args.url:
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
