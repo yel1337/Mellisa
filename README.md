@@ -44,17 +44,26 @@ pip install -r requirements.txt
 > Installing Mellisa in an isolated environment prevents version conflicts and keeps system tools intact.
 
 # Usage
+*From the root directory do*
+```bash
+cd mellisa
+```
+
+*Inside the directory, make the shell script executable by running:*
+```bash
+chmod +x mellisa.sh
+```
 
 *Run the crawler from the project root (while the virtual environment is active):*
 
   ```bash
-  python mellisa.py <url>
+  ./mellisa.sh <url>
   ```
 
   Example:
 
   ```bash
-  python mellisa.py https://www.google.com/
+  ./mellisa.sh https://www.google.com/
   ```
 
 #### Docker (optional)
