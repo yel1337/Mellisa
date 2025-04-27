@@ -2,6 +2,8 @@ import time
 from datetime import datetime
 from custom.log.log_custom import log_level
 from misc.messages import Messages
+from pathlib import Path
+
 
 msg = Messages()
 
@@ -35,8 +37,8 @@ class Misc:
 
     def misc_output(self):
         print("")
-        output_filePath = "/home/user/Mellisa/mellisa/mellisa/output/domain.json"
-        print(f"Output file saved in: {output_filePath}")
+        output_filePath = Path(__file__).resolve().parent.parent / "output"  
+        print(f"Output file saved in: {output_filePath}/domain_name.json")
 
     def misc_saving(self, datas, return_none_callback=None, return_data_callback=None):
         if datas:
