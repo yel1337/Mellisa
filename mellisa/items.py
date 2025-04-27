@@ -4,7 +4,7 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 
 import scrapy
-from itemloaders.processors import TakeFirst, MapCompose
+from itemloaders.processors import MapCompose
 
 
 def remove_dup(data):
@@ -17,3 +17,4 @@ class MellisaItem(scrapy.Item):
         input_processor=MapCompose(str.strip),
         output_processor=remove_dup
     )
+    urls = scrapy.Field(output_processor = remove_dup)
