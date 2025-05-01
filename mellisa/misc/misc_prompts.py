@@ -3,7 +3,7 @@ from datetime import datetime
 from custom.log.log_custom import log_level
 from misc.messages import Messages
 from pathlib import Path
-
+from spiders.m_spider import ScrapeParameters
 
 msg = Messages()
 
@@ -40,7 +40,7 @@ class Misc:
         output_filePath = Path(__file__).resolve().parent.parent / "output"  
         print(f"Output file saved in: {output_filePath}/domain_name.json")
 
-    def misc_saving(self, datas, return_none_callback=None, return_data_callback=None):
+    def misc_saving(self, datas, data_len, return_none_callback=None, return_data_callback=None):
         if datas:
             print(self.time_of_execution(
                 msg.for_info[2], datas, return_data_callback))
@@ -49,5 +49,5 @@ class Misc:
             print(self.time_of_execution(
                 msg.for_info[2], datas, return_none_callback, return_data_callback))
             time.sleep(2)
-            print(f"{self.time_of_execution(msg.for_info[4])}: {len(datas)}")
+            print(f"{self.time_of_execution(msg.for_info[4])}: {data_len}")
             time.sleep(1)

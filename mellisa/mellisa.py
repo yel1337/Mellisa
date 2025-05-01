@@ -60,17 +60,27 @@ def main():
 
     parser = argparse.ArgumentParser(description=ascii.description_ascii.mellisa_ascii,
                                     formatter_class=CustomHelpFormatter)
-    parser.add_argument('url', help="URL of the website to crawl") 
+
+    parser.add_argument('url', help="URL of the website to crawl")
+    parser.add_argument('-c',
+                        '--custom_xpath',
+                        help="Custom XPATH Query")
+
     args = parser.parse_args()
     spider_kwargs = {}
 
-    if "--help" in sys.argv:
-        print(ascii.description_ascii.mellisa_ascii)
-    if args.url:
+    if args.url and args.custom_xpath is None:
+        print("NORMAL...")
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
-        print(f"target: {args.url}")
-        run_spider(output_file=domain_name, **spider_kwargs)
+        print(f"target: {args.url}")       
+    if args.custom_xpath:
+        print("CUSTOM...")
+        domain_name = remove_char(args.url)
+        spider_kwargs['start_urls'] = [args.url]
+        spider_kwargs['custom_xpath'] = args.custom_xpath
+    
+    run_spider(output_file=domain_name, **spider_kwargs)
 
 if __name__ == "__main__":
     main()

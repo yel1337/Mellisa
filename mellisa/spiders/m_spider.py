@@ -1,6 +1,5 @@
 import scrapy
 import os
-from misc.misc_prompts import Misc
 from scrapy.loader import ItemLoader
 from items import MellisaItem
 from pathlib import Path
@@ -9,15 +8,20 @@ class ScrapeParameters(scrapy.Spider):
     name = "param_spider"
     start_urls = []
 
-    def __init__(self, url=None, start_urls=None, *args, **kwargs):
+    def __init__(self, url=None, data_len=0, datas=None, start_urls=None, *args, **kwargs):
         super(ScrapeParameters, self).__init__(*args, **kwargs)
-        self.datas = []
-        self.data_len = 0
+        self.datas = datas if datas is not None else []
+        self.data_len = data_len if data_len > 0 else self.return_num_data()
+        self.custom_xpath = kwargs.get('custom_xpath')
+        # Running flag return True if custom xpath query has been injection
+        # otherwise return False
+        self.running_custom = bool(self.custom_xpath)
 
         if url:
             self.start_urls = [f"{url}"]
-        elif start_urls:
+        if start_urls:
             self.start_urls = start_urls
+
     # ignore comments ("#") and empty lines ("//") in wordlist.txt
     def load_xpath(self, file_path):
         with open(file_path, "r") as f:
@@ -27,9 +31,9 @@ class ScrapeParameters(scrapy.Spider):
             ]
 
     # Return Num Callback
-    def return_num_data(self, data_len):
-        if data_len > 0:
-            return True
+    def return_num_data(self):
+        if self.datas:
+            return len(self.datas)
 
     # Return None Callback
     def return_none(self, data_len):
@@ -59,6 +63,10 @@ class ScrapeParameters(scrapy.Spider):
         path = Path(__file__).resolve().parent.parent / "wordlist.txt"
         query = Path(__file__).resolve().parent.parent / "page_queries.txt"
 
+        if self.running_custom:
+            print("Spider: Running using Custom...")
+            extracted_datas_CUSTOM = response.xpath(self.custom_xpath).getall()
+
         xpaths = self.load_xpath(path)
         query_xpath = self.load_xpath(query)
 
@@ -68,7 +76,10 @@ class ScrapeParameters(scrapy.Spider):
         if isinstance(query_xpath, list):
             query_xpath = query_xpath[0] if query_xpath else ""
 
-        extracted_datas = response.xpath(xpaths).getall()
+        if xpaths:
+            print("Spider: Running in default mode")
+            extracted_datas = response.xpath(xpaths).getall()
+            
         self.datas.extend(extracted_datas)
 
         load_item = self._add_val_item(extracted_datas, response)
@@ -80,11 +91,10 @@ class ScrapeParameters(scrapy.Spider):
         yield load_url
 
     def closed(self, reason):
+        from misc.misc_prompts import Misc
         misc = Misc()
-        data_len = len(self.datas)
         if self.datas:
-            misc.misc_saving(self.datas, self.return_num_data(data_len))
-            self.return_num_data(data_len)
+            misc.misc_saving(self.datas, self.data_len, self.return_num_data())
             misc.misc_output()
-        elif data_len == 0:
+        elif self.data_len == 0:
             misc.misc_none()

@@ -30,6 +30,6 @@ MONITOR_PID=$!
 disown $MONITOR_PID
 
 # Run the Python script
-python "$PYTHON_SCRIPT" "$1"
+python "$PYTHON_SCRIPT" "$@"
 
 exit 0
