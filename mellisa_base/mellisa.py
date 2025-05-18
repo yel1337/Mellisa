@@ -1,7 +1,6 @@
 import ascii
 from scrapy.utils.project import get_project_settings
-from misc.misc_prompts import Misc
-from spiders.m_spider import ScrapeParameters
+from mellisa_base.spiders.m_spider import ScrapeParameters
 from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 import ascii.description_ascii
@@ -73,14 +72,13 @@ def main():
         print("NORMAL...")
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
-        print(f"target: {args.url}")       
+        print(f"target: {args.url}")
+        run_spider(output_file=domain_name, **spider_kwargs)       
     if args.custom_xpath:
         print("CUSTOM...")
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
         spider_kwargs['custom_xpath'] = args.custom_xpath
-    
-    run_spider(output_file=domain_name, **spider_kwargs)
 
 if __name__ == "__main__":
     main()

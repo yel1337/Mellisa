@@ -1,7 +1,7 @@
 import scrapy
 import os
 from scrapy.loader import ItemLoader
-from items import MellisaItem
+from mellisa_base.items import MellisaItem
 from pathlib import Path
 
 class ScrapeParameters(scrapy.Spider):
@@ -13,7 +13,8 @@ class ScrapeParameters(scrapy.Spider):
         self.datas = datas if datas is not None else []
         self.data_len = data_len if data_len > 0 else self.return_num_data()
         self.custom_xpath = kwargs.get('custom_xpath')
-        # Running flag return True if custom xpath query has been injection
+
+        # Running flag return True if custom xpath query is provided
         # otherwise return False
         self.running_custom = bool(self.custom_xpath)
 
@@ -91,7 +92,7 @@ class ScrapeParameters(scrapy.Spider):
         yield load_url
 
     def closed(self, reason):
-        from misc.misc_prompts import Misc
+        from mellisa_base.misc.misc_prompts import Misc
         misc = Misc()
         if self.datas:
             misc.misc_saving(self.datas, self.data_len, self.return_num_data())

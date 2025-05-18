@@ -1,4 +1,4 @@
-from misc.messages import Messages
+from mellisa_base.misc.messages import Messages
 
 
 def log_level(self, message, datas=None, return_none_cb=None, return_data_cb=None):
