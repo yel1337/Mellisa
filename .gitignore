@@ -25,3 +25,6 @@ err/
 
 # Ignore venv folder 
 ../myenv/
+
+# Ignore first_run flag
+.first_run_flag
