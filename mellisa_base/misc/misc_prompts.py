@@ -1,9 +1,8 @@
 import time
 from datetime import datetime
-from mellisa_base.custom.log.log_custom import log_level
-from mellisa_base.misc.messages import Messages
+from custom.log.log_custom import log_level
+from misc.messages import Messages
 from pathlib import Path
-from mellisa_base.spiders.m_spider import ScrapeParameters
 
 msg = Messages()
 

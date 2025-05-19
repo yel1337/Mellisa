@@ -97,3 +97,7 @@
 
 ##########  Custom Data Attributes (Generic Catch-All)  ###############
 /html//*[@* and contains(., '?')]/@*
+
+########## Custom Test Query ###########
+//div[@id='donations-so-far']/@id
+

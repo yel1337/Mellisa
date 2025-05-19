@@ -1,7 +1,8 @@
 import scrapy
 import os
 from scrapy.loader import ItemLoader
-from mellisa_base.items import MellisaItem
+from misc.misc_prompts import Misc
+from items import MellisaItem
 from pathlib import Path
 
 class ScrapeParameters(scrapy.Spider):
@@ -31,12 +32,12 @@ class ScrapeParameters(scrapy.Spider):
                     if line.strip() and not line.lstrip().startswith("#") and not line.lstrip().startswith("//")
             ]
 
-    # Return Num Callback
+    # return Num Callback
     def return_num_data(self):
         if self.datas:
             return len(self.datas)
 
-    # Return None Callback
+    # return None Callback
     def return_none(self, data_len):
         if data_len == 0:
             return True
@@ -92,7 +93,6 @@ class ScrapeParameters(scrapy.Spider):
         yield load_url
 
     def closed(self, reason):
-        from mellisa_base.misc.misc_prompts import Misc
         misc = Misc()
         if self.datas:
             misc.misc_saving(self.datas, self.data_len, self.return_num_data())

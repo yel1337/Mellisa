@@ -1,6 +1,6 @@
 import ascii
 from scrapy.utils.project import get_project_settings
-from mellisa_base.spiders.m_spider import ScrapeParameters
+from spiders.m_spider import ScrapeParameters
 from pathlib import Path
 from scrapy.crawler import CrawlerProcess
 import ascii.description_ascii
@@ -12,6 +12,7 @@ import sys
 import re
 mellisa = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, mellisa)
+os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'mellisa_base.settings')
 
 class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
     def start_section(self, heading):
@@ -29,7 +30,7 @@ def run_spider(output_file=None, **kwargs):
     output_folder = project_root / "output"
     output_folder.mkdir(exist_ok=True)
 
-    # full path to the output file
+    # full path of the output file
     output_path = output_folder / output_file if output_file else None
     
     if output_file:
@@ -68,14 +69,15 @@ def main():
     args = parser.parse_args()
     spider_kwargs = {}
 
+    # for default // without custom xpath query
     if args.url and args.custom_xpath is None:
-        print("NORMAL...")
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
         print(f"target: {args.url}")
         run_spider(output_file=domain_name, **spider_kwargs)       
+    
+    # for custom // with custom xpath query
     if args.custom_xpath:
-        print("CUSTOM...")
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
         spider_kwargs['custom_xpath'] = args.custom_xpath

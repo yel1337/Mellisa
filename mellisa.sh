@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-PYTHON_SCRIPT="$SCRIPT_DIR/mellisa.py"
+PYTHON_SCRIPT="$SCRIPT_DIR/mellisa_base/mellisa.py"
 FLAG_FILE="$SCRIPT_DIR/.first_run_flag"
 
 if [ $# -eq 0 ]; then
