@@ -50,3 +50,5 @@ class Misc:
             time.sleep(2)
             print(f"{self.time_of_execution(msg.for_info[4])}: {data_len}")
             time.sleep(1)
+        elif not datas:
+            raise Exception("No scraped data from pipeline")

@@ -11,8 +11,8 @@ class ScrapeParameters(scrapy.Spider):
 
     def __init__(self, url=None, data_len=0, datas=None, start_urls=None, *args, **kwargs):
         super(ScrapeParameters, self).__init__(*args, **kwargs)
-        self.datas = datas if datas is not None else []
-        self.data_len = data_len if data_len > 0 else self.return_num_data()
+        self.datas = []
+        self.data_len = 0
         self.custom_xpath = kwargs.get('custom_xpath')
 
         # Running flag return True if custom xpath query is provided
@@ -61,14 +61,17 @@ class ScrapeParameters(scrapy.Spider):
                 yield response.follow(url, callback=self.parse)
 
     def parse(self, response):
-        # assumes wordlist.txt is in the same dir as m_spiders.py's parent (i.e. /mellicd sa/)
+        # assumes wordlist.txt is in the same dir as m_spiders.py's parent
         path = Path(__file__).resolve().parent.parent / "wordlist.txt"
         query = Path(__file__).resolve().parent.parent / "page_queries.txt"
+
+        if path:
+            print(f"{path}")
 
         if self.running_custom:
             print("Spider: Running using Custom...")
             extracted_datas_CUSTOM = response.xpath(self.custom_xpath).getall()
-
+            
         xpaths = self.load_xpath(path)
         query_xpath = self.load_xpath(query)
 
@@ -78,24 +81,17 @@ class ScrapeParameters(scrapy.Spider):
         if isinstance(query_xpath, list):
             query_xpath = query_xpath[0] if query_xpath else ""
 
-        if xpaths:
-            print("Spider: Running in default mode")
-            extracted_datas = response.xpath(xpaths).getall()
-            
+        extracted_datas = response.xpath(xpaths).getall()
         self.datas.extend(extracted_datas)
 
         load_item = self._add_val_item(extracted_datas, response)
         yield load_item
 
+        if not self.datas:
+            misc = Misc()
+            return misc.misc_none()
+
         crawl_page = self.crawl_page(query_xpath, response)
         load_url = self._add_val_url(crawl_page, response)
 
         yield load_url
-
-    def closed(self, reason):
-        misc = Misc()
-        if self.datas:
-            misc.misc_saving(self.datas, self.data_len, self.return_num_data())
-            misc.misc_output()
-        elif self.data_len == 0:
-            misc.misc_none()

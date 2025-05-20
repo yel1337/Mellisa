@@ -5,4 +5,4 @@ class Messages:
                 "PARAMETERS FOUND",
                 "Total number of scraped parameter/s from page"]
     for_warning = [
-        "Page might not contain any parameter/s to be extracted, maybe try another one?"]
+        "The page might not contain any parameters to extract. You may want to try a different one."]
