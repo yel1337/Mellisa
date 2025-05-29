@@ -3,6 +3,8 @@ class Messages:
                 "Scraping...",
                 "Saving...",
                 "PARAMETERS FOUND",
+                "Running In Default Mode",
+                "Running In Custom Mode",
                 "Total number of scraped parameter/s from page"]
     for_warning = [
         "The page might not contain any parameters to extract. You may want to try a different one."]

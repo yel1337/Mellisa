@@ -9,12 +9,13 @@ from pathlib import Path
 
 
 class Misc:
-    def __init__(self, len_of_data, data, value_main):
+    def __init__(self, len_of_data, data, value_main, url):
         self.output_log = log
         self.msg = Messages()
         self.data_len = len_of_data
         self.data = data
         self.value_main = value_main
+        self.args_url = main
 
     def time_of_execution(self, message, datas=None, return_none_callback=None, return_data_callback=None):
         execution_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -46,9 +47,11 @@ class Misc:
         print(f"Output file saved in: {output_filePath}/domain_name.json")
 
     def misc_saving(self, data_len, main_val, return_none_callback=None, return_data_callback=None):
-        crawling = self.time_of_execution(self.msg.for_info[0], self.data, return_data_callback)
-        print(f"{crawling}")
-
+        if self.args_url:
+            crawling = self.time_of_execution(self.msg.for_info[0], self.data, return_data_callback)
+            print(f"{crawling}")
+       
+        # Block specifically for args event // Default or Custom
         if self.value_main is None:
             default = self.time_of_execution(self.msg.for_info[4])
             print(f"{default}")
@@ -59,12 +62,15 @@ class Misc:
         if self.data:
             print(self.time_of_execution(
                 self.msg.for_info[1], self.data, return_none_callback, return_data_callback))
-        if run_spider:
+
+        if run_spider and self.data is not False:
             print(self.time_of_execution(
                 self.msg.for_info[2], self.data, return_none_callback, return_data_callback))
-        time.sleep(2)
+            time.sleep(2)
+
         if self.data_len:
             print(f"{self.time_of_execution(self.msg.for_info[6])}: {self.data_len}")
             time.sleep(1)
-        elif not self.data:
-            raise Exception("No scraped data from pipeline")
+        elif self.data is False:
+            none = self.misc_none()
+            print(f"{none}")

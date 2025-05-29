@@ -1,9 +1,8 @@
 import ascii
 from scrapy.utils.project import get_project_settings
-from spiders.m_spider import ScrapeParameters
 from pathlib import Path
 from scrapy.crawler import CrawlerProcess
-import ascii.description_ascii
+from ascii.description_ascii import mellisa_ascii  
 import argparse
 import atexit
 import signal
@@ -17,7 +16,9 @@ os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'mellisa_base.settings')
 class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
     def start_section(self, heading):
         if heading.lower() == 'positional arguments':
-            heading = 'COMMANDS'
+            heading = 'commands'
+        elif heading.lower() == 'optional arguments':
+            heading = 'options'
         return super().start_section(heading)
 
 
@@ -44,6 +45,8 @@ def run_spider(output_file=None, **kwargs):
     process.crawl(spider_name, **kwargs)
     process.start()
 
+    return output_file
+
 def remove_char(domain):
     charsRemove = ["https://", "http://", "www."]
     for prefix in charsRemove:
@@ -54,33 +57,54 @@ def remove_char(domain):
 
     return f"{domain}.json"
 
+def event_handler(event, args, parser):
+    if event is args.custom_xpath and args.custom_xpath:
+        return True
+    elif event is args.custom_xpath and args.custom_xpath == None:
+        return None
+
+def return_if_args(args):
+    if args:
+        return True
+    else:
+        return False
+
 def main():
     script_dir = os.path.dirname(os.path.realpath(__file__))
     flag_file = os.path.join(script_dir, ".first_run_flag")
-
-    parser = argparse.ArgumentParser(description=ascii.description_ascii.mellisa_ascii,
+    GREEN = "\033[92m"
+    RESET = "\033[0m"
+    parser = argparse.ArgumentParser(usage=argparse.SUPPRESS,
+                                    description=mellisa_ascii,
+                                    epilog=f"""
+examples:
+    {GREEN}./mellisa.sh https://example.com{RESET}                    - Run the crawler in Default Mode
+    {GREEN}./mellisa.sh https://example.com -c <custom_query>{RESET}  - Run the crawler with Custom XPath
+""",
                                     formatter_class=CustomHelpFormatter)
 
     parser.add_argument('url', help="URL of the website to crawl")
-    parser.add_argument('-c',
-                        '--custom_xpath',
-                        help="Custom XPATH Query")
-
+    parser.add_argument('-c', '--custom_xpath', help="Custom XPATH Query")
     args = parser.parse_args()
+
     spider_kwargs = {}
 
-    # for default // without custom xpath query
     if args.url and args.custom_xpath is None:
+        event_condition = event_handler(args.custom_xpath, args, parser)
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
         print(f"target: {args.url}")
         run_spider(output_file=domain_name, **spider_kwargs)       
-    
-    # for custom // with custom xpath query
-    if args.custom_xpath:
+        
+    elif args.url and args.custom_xpath:
+        event_condition = event_handler(args.custom_xpath, args, parser)
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [args.url]
+        print(f"target: {args.url}")
         spider_kwargs['custom_xpath'] = args.custom_xpath
+        run_spider(output_file=domain_name, **spider_kwargs)
+
+    return return_if_args(args.url)
 
 if __name__ == "__main__":
     main()

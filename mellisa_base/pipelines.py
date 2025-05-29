@@ -6,7 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-
+from scrapy.exceptions import DropItem  
 
 class MellisaPipeline:
     def process_item(self, item, spider):

@@ -11,7 +11,7 @@ fi
 
 if [ ! -f "$FLAG_FILE" ]; then
     touch "$FLAG_FILE"
-    python3 -c "import ascii.description_ascii; print(ascii.description_ascii.mellisa_ascii)"
+    python3 -c "from mellisa_base.ascii.description_ascii import mellisa_ascii; print(mellisa_ascii)"
 fi
 
 (
