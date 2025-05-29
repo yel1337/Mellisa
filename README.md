@@ -27,7 +27,7 @@ This Python script scans web pages to extract potential URL parameters, form fie
 * **Bug Fixes**
 
 # Table of Contents
-- [Release Note](#release)  
+- [What's New](#release)  
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
