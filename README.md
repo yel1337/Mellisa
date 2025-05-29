@@ -60,10 +60,14 @@ chmod +x mellisa.sh
   ./mellisa.sh <url>
   ```
 
-  Example:
+  Example (default):
 
   ```bash
   ./mellisa.sh https://www.google.com/
+  ```
+  Example (with Custom XPath Query):
+  ```bash
+  ./mellisa.sh https://www.google.com/ -c <custom_query>
   ```
 
 #### Docker (optional)
