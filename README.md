@@ -15,8 +15,19 @@ This Python script scans web pages to extract potential URL parameters, form fie
 
 > **Note:** The script now resolves `wordlist.txt` dynamically via `pathlib`, so no hard‑coded paths are required.
 
-# Table of Contents
+# What's New
+* **Custom XPath Query Support**
 
+  - An option to use Custom Xpath Query 
+
+  - Learn more about XPath: https://www.w3schools.com/xml/xpath_syntax.asp
+* **Link Discovery**
+
+  - Added functionality to detect and follow hyperlinks that may lead to redirects.
+* **Bug Fixes**
+
+# Table of Contents
+- [Release Note](#release)  
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
