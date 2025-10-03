@@ -19,6 +19,7 @@ This Python script scans web pages to extract potential URL parameters, form fie
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Testing Domains and Best Practices](#testing-domains-and-best-practices)
 - [License](#license)
 
 # Installation
@@ -65,6 +66,44 @@ chmod +x mellisa.sh
   ```bash
   ./mellisa.sh https://www.google.com/
   ```
+
+## Testing Domains and Best Practices
+
+### ✅ Safe & Legal Test Domains
+
+For testing Mellisa's functionality, use these intentionally vulnerable sites designed for security testing:
+
+1. **http://testphp.vulnweb.com** - Acunetix test site (tested, works but found no params on homepage)
+2. **http://demo.testfire.net** - Banking demo site
+3. **http://zero.webappsecurity.com** - Zero Bank demo
+4. **https://juice-shop.herokuapp.com** - OWASP Juice Shop online
+
+### 🎯 Best Practices for Parameter Discovery
+
+For effective parameter discovery testing:
+
+1. **Use local vulnerable apps** like DVWA or bWAPP for comprehensive testing
+2. **Target specific pages with known parameters** (search pages, login forms, etc.)
+3. **Always ensure you have explicit permission** before testing any website
+
+### Understanding Tool Behavior
+
+The tool is working correctly when it:
+- Validates URLs properly
+- Respects/ignores robots.txt as configured
+- Creates output files in the `output/` directory
+- Handles pages with/without parameters appropriately
+
+> **Note:** The warning "Page might not contain any parameter/s" is expected when scanning pages without URL parameters (common on homepages). Mellisa is designed to find pages with query strings containing potential injection points.
+
+### Optimal Target Pages
+
+For best results, target pages with forms or known parameters like:
+- Search pages (`/search.php?q=test`)
+- Product listings (`/products.php?category=1`)
+- User profiles (`/user.php?id=123`)
+- Login forms (`/login.php?redirect=/home`)
+- API endpoints (`/api/v1/users?limit=10`)
 
 #### Docker (optional)
 
