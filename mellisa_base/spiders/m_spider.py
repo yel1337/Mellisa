@@ -30,11 +30,21 @@ class ScrapeParameters(scrapy.Spider):
     #
     # USE FOR DEFAULT 
     def load_xpath_default(self, file_path):
-        with open(file_path, "r") as f:
-            return [line.strip()
+        try:
+            with open(file_path, "r") as f:
+                return [
+                    line.strip()
                     for line in f
-                    if line.strip() and not line.lstrip().startswith("#") and not line.lstrip().startswith("//")
-            ]
+                    if line.strip()
+                    and not line.lstrip().startswith("#")
+                    and not line.lstrip().startswith("//")
+                ]
+        except FileNotFoundError:
+            self.logger.error(f"File not found: {file_path}")
+            return []
+        except Exception as e:
+            self.logger.error(f"Error reading {file_path}: {e}")
+            return []
 
     # USE FOR CUSTOM 
     def load_xpath_custom(self, file_path):
