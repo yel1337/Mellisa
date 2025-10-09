@@ -1,4 +1,5 @@
 import ascii
+from urllib.parse import urlparse
 from scrapy.utils.project import get_project_settings
 from pathlib import Path
 from scrapy.crawler import CrawlerProcess
@@ -47,6 +48,31 @@ def run_spider(output_file=None, **kwargs):
 
     return output_file
 
+# commit @1eebe226194b68d88da9c3ab1d6685431d15fa08
+# by JWhiteUX from hotfix/v1.1.0
+#
+# URL validation with scheme detection
+def validate_url(url):
+    """Validate URL format for security testing purposes."""
+    try:
+        result = urlparse(url)
+        if not result.scheme:
+            # Add http if no scheme provided
+            url = f"http://{url}"
+            result = urlparse(url)
+
+        if result.scheme not in ['http', 'https']:
+            print(f"Warning: Unusual scheme '{result.scheme}' - proceeding for security testing")
+
+        if not result.netloc:
+            print(f"Error: Invalid URL format: {url}")
+            return None
+
+        return url
+    except Exception as e:
+        print(f"Error parsing URL: {e}")
+        return None
+
 def remove_char(domain):
     charsRemove = ["https://", "http://", "www."]
     for prefix in charsRemove:
@@ -86,25 +112,26 @@ examples:
     parser.add_argument('url', help="URL of the website to crawl")
     parser.add_argument('-c', '--custom_xpath', help="Custom XPATH Query")
     args = parser.parse_args()
+    validated_url = validate_url(args.url)
 
     spider_kwargs = {}
 
     if args.url and args.custom_xpath is None:
         event_condition = event_handler(args.custom_xpath, args, parser)
         domain_name = remove_char(args.url)
-        spider_kwargs['start_urls'] = [args.url]
+        spider_kwargs['start_urls'] = [validated_url]
         print(f"target: {args.url}")
         run_spider(output_file=domain_name, **spider_kwargs)       
         
     elif args.url and args.custom_xpath:
         event_condition = event_handler(args.custom_xpath, args, parser)
         domain_name = remove_char(args.url)
-        spider_kwargs['start_urls'] = [args.url]
+        spider_kwargs['start_urls'] = [validated_url]
         print(f"target: {args.url}")
         spider_kwargs['custom_xpath'] = args.custom_xpath
         run_spider(output_file=domain_name, **spider_kwargs)
 
-    return return_if_args(args.url)
+    return return_if_args(validated_url)
 
 if __name__ == "__main__":
     main()
