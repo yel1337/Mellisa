@@ -15,7 +15,7 @@ mellisa_ascii = r"""
       |/                          \\               
                                    \\
     @yel1337, @JWhiteUX            ||
-                                   || {v1.1.1}
+                                   || {v1.1.2}
                                    \\
                                     ' 
 "Beneath the surface, the spider moves — silent, patient, unseen."
