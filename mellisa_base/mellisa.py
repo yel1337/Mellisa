@@ -1,12 +1,10 @@
-import ascii
 from urllib.parse import urlparse
 from scrapy.utils.project import get_project_settings
 from pathlib import Path
 from scrapy.crawler import CrawlerProcess
-from ascii.description_ascii import mellisa_ascii  
+from ascii.description_ascii import mellisa_ascii
+from lxml import etree
 import argparse
-import atexit
-import signal
 import os
 import sys
 import re
@@ -23,7 +21,7 @@ class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
         return super().start_section(heading)
 
 
-def run_spider(output_file=None, **kwargs):
+def run_spider(output_file=None, throttle_settings=None, **kwargs):
     settings = get_project_settings()
     spider_name = "param_spider"
 
@@ -34,13 +32,17 @@ def run_spider(output_file=None, **kwargs):
 
     # full path of the output file
     output_path = output_folder / output_file if output_file else None
-    
+
     if output_file:
         settings.update({
             'FEED_FORMAT': 'json',
             'FEED_URI': output_path,
             'FEED_EXPORT_ENCODING': 'utf-8'
         })
+
+    # Apply throttle settings if provided
+    if throttle_settings:
+        settings.update(throttle_settings)
 
     process = CrawlerProcess(settings)
     process.crawl(spider_name, **kwargs)
@@ -57,7 +59,6 @@ def validate_url(url):
     try:
         result = urlparse(url)
         if not result.scheme:
-            # Add http if no scheme provided
             url = f"http://{url}"
             result = urlparse(url)
 
@@ -70,8 +71,22 @@ def validate_url(url):
 
         return url
     except Exception as e:
-        print(f"Error parsing URL: {e}")
+        print(f"Error parsing URL: {type(e).__name__}")
         return None
+
+
+def validate_xpath(xpath_query):
+    """Validate XPath syntax before crawl execution."""
+    try:
+        etree.XPath(xpath_query)
+        return True
+    except etree.XPathSyntaxError as e:
+        print(f"Error: Invalid XPath syntax: {e}")
+        return False
+    except Exception as e:
+        print(f"Error: XPath validation failed: {type(e).__name__}")
+        return False
+
 
 def remove_char(domain):
     charsRemove = ["https://", "http://", "www."]
@@ -86,7 +101,7 @@ def remove_char(domain):
 def event_handler(event, args, parser):
     if event is args.custom_xpath and args.custom_xpath:
         return True
-    elif event is args.custom_xpath and args.custom_xpath == None:
+    elif event is args.custom_xpath and args.custom_xpath is None:
         return None
 
 def return_if_args(args):
@@ -111,8 +126,31 @@ examples:
 
     parser.add_argument('url', help="URL of the website to crawl")
     parser.add_argument('-c', '--custom_xpath', help="Custom XPATH Query")
+    parser.add_argument('-d', '--delay', type=float, default=None,
+                        help="Download delay between requests in seconds (default: 1)")
+    parser.add_argument('--no-throttle', action='store_true',
+                        help="Disable autothrottle for faster scanning")
+    parser.add_argument('--max-delay', type=float, default=None,
+                        help="Maximum delay for autothrottle in seconds (default: 30)")
+    parser.add_argument('--no-validate', action='store_true',
+                        help="Skip XPath syntax validation for custom queries")
     args = parser.parse_args()
     validated_url = validate_url(args.url)
+
+    # Validate custom XPath syntax unless --no-validate is set
+    if args.custom_xpath and not args.no_validate:
+        if not validate_xpath(args.custom_xpath):
+            print("Use --no-validate to skip syntax validation")
+            return False
+
+    # Build throttle settings from CLI args
+    throttle_settings = {}
+    if args.delay is not None:
+        throttle_settings['DOWNLOAD_DELAY'] = args.delay
+    if args.no_throttle:
+        throttle_settings['AUTOTHROTTLE_ENABLED'] = False
+    if args.max_delay is not None:
+        throttle_settings['AUTOTHROTTLE_MAX_DELAY'] = args.max_delay
 
     spider_kwargs = {}
 
@@ -121,15 +159,15 @@ examples:
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [validated_url]
         print(f"target: {args.url}")
-        run_spider(output_file=domain_name, **spider_kwargs)       
-        
+        run_spider(output_file=domain_name, throttle_settings=throttle_settings, **spider_kwargs)
+
     elif args.url and args.custom_xpath:
         event_condition = event_handler(args.custom_xpath, args, parser)
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [validated_url]
         print(f"target: {args.url}")
         spider_kwargs['custom_xpath'] = args.custom_xpath
-        run_spider(output_file=domain_name, **spider_kwargs)
+        run_spider(output_file=domain_name, throttle_settings=throttle_settings, **spider_kwargs)
 
     return return_if_args(validated_url)
 

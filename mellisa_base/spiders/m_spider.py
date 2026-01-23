@@ -40,10 +40,10 @@ class ScrapeParameters(scrapy.Spider):
                     and not line.lstrip().startswith("//")
                 ]
         except FileNotFoundError:
-            self.logger.error(f"File not found: {file_path}")
+            self.logger.error(f"File not found: {Path(file_path).name}")
             return []
         except Exception as e:
-            self.logger.error(f"Error reading {file_path}: {e}")
+            self.logger.error(f"Error reading {Path(file_path).name}: {type(e).__name__}")
             return []
 
     # USE FOR CUSTOM 

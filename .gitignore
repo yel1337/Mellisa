@@ -23,5 +23,32 @@ venv/
 # Ignore err dir
 err/ 
 
-# Ignore venv folder 
+# Ignore venv folder
 ../myenv/
+.venv/
+
+# Ignore Claude files
+.claude/
+.claude*
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+
+# IDE (fix .vscode pattern)
+.vscode/
+.idea/
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Environment
+.env
