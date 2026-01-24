@@ -15,12 +15,12 @@ class Misc:
         self.data_len = len_of_data
         self.data = data
         self.value_main = value_main
-        self.args_url = main
+        self.args_url = url
 
     def time_of_execution(self, message, datas=None, return_none_callback=None, return_data_callback=None):
         execution_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        logger = log_level(datas, message, return_none_callback,
+        logger = log_level(message, datas, return_none_callback,
                         return_data_callback)
 
         formatted_message = f"{execution_time} {logger} {message}"
@@ -63,7 +63,7 @@ class Misc:
             print(self.time_of_execution(
                 self.msg.for_info[1], self.data, return_none_callback, return_data_callback))
 
-        if run_spider and self.data is not False:
+        if self.data is not False:
             print(self.time_of_execution(
                 self.msg.for_info[2], self.data, return_none_callback, return_data_callback))
             time.sleep(2)

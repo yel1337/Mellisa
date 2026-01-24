@@ -89,17 +89,18 @@ Optional Arguments:
 
 ## Quick Functional Test (w/NetSPI XPath-Injection Lab)
 
-This walk-through spins up NetSPI’s *Path Injection Weakness* demo locally, runs Mellisa against it, and inspects the JSON output.
+This walk-through spins up NetSPI's *XPath Injection Lab* demo locally, runs Mellisa against it, and inspects the JSON output.
 
-### 1. Set up the test target  
+### 1. Set up the test target
 
 ```bash
 # Clone the lab (or your own fork)
-git clone https://github.com/NetSPI/path-injection-weakness-lab.git
-cd path-injection-weakness-lab
+git clone https://github.com/NetSPI/XPath-Injection-Lab.git
+cd XPath-Injection-Lab
 
-# Start the vulnerable app (using Docker Compose)
-docker compose up -d
+# Build and start the vulnerable app (using Docker)
+docker build -t bookapp .
+docker run -d -p 8888:80 bookapp
 # The lab now listens on http://localhost:8888/
 ```
 ### 2. Run Mellisa against the lab

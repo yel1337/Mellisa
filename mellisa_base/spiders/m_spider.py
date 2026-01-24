@@ -92,17 +92,11 @@ class ScrapeParameters(scrapy.Spider):
         query = Path(__file__).resolve().parent.parent / "page_queries.txt"
         
         # if default args then this will be use
-        # otherwise if custom args is true 
+        # otherwise if custom args is true
         # query_xpath variable will be use instead
         xpaths = self.load_xpath_default(path)
         query_xpath = self.load_xpath_custom(query)
 
-        if isinstance(xpaths, list):
-            for xpath in xpaths:
-                results = response.xpath(xpath).getall()    
-        elif isinstance(query_xpath, list):
-            query_xpath = query_xpath[0] if query_xpath else ""
-        
         if self.running_custom_flag is True:
             self.value_from_main = True
             extracted_datas_CUSTOM = response.xpath(self.custom_xpath).getall()

@@ -56,7 +56,7 @@
 /html//*[@data-endpoint and contains(@data-endpoint,'?')]/@data-endpoint
 
 ##########  SVG & Font Assets  ########################################
-/html//svg//*[contains(@xlink:href,'?')]/@xlink:href
+/html//svg//*[contains(@*[local-name()='href'],'?')]/@*[local-name()='href']
 /html//link[@rel='preload' and contains(@href,'?')]/@href
 
 ##########  JavaScript Files & Inline Scripts  ########################
