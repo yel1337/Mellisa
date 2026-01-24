@@ -86,7 +86,7 @@ class ScrapeParameters(scrapy.Spider):
             if url:
                 yield response.follow(url, callback=self.parse)
 
-    def parse(self, response=None):
+    def parse(self, response):
         # assumes wordlist.txt is in the same dir as m_spiders.py's parent
         path = Path(__file__).resolve().parent.parent / "wordlist.txt"
         query = Path(__file__).resolve().parent.parent / "page_queries.txt"
@@ -98,7 +98,8 @@ class ScrapeParameters(scrapy.Spider):
         query_xpath = self.load_xpath_custom(query)
 
         if isinstance(xpaths, list):
-            xpaths = xpaths[0] if xpaths else ""    
+            for xpath in xpaths:
+                results = response.xpath(xpath).getall()    
         elif isinstance(query_xpath, list):
             query_xpath = query_xpath[0] if query_xpath else ""
         
@@ -111,9 +112,10 @@ class ScrapeParameters(scrapy.Spider):
             load_item = self._add_value_item(extracted_datas_CUSTOM, response)
             yield load_item
         else:
-            extracted_datas = response.xpath(xpaths).getall()
-            self_datas = extracted_datas
-            self.datas.extend(extracted_datas)
+            for xpath in xpaths:
+                extracted_datas = response.xpath(xpath).getall()
+                self_datas = extracted_datas
+                self.datas.extend(extracted_datas)
 
             load_item = self._add_value_item(extracted_datas, response)
             yield load_item
