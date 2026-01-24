@@ -15,11 +15,11 @@ This Python script scans web pages to extract potential URL parameters, form fie
 
 > **Note:** The script now resolves `wordlist.txt` dynamically via `pathlib`, so no hard‑coded paths are required.
 
-# What's New (v1.1.2)
-* **Minor dependencies updates**
-    - Read CHANGELOG/v1.1.2
+# What's New (v1.1.3)
+* **Critical bug fixes for parameter extraction and logging**
+    - Read CHANGELOG/1.1.3/change.md
 
-* **Added URL validation scheme detection**
+* **Improved XPath processing**
 
 # Table of Contents
 - [What's New](#release)  
