@@ -135,6 +135,15 @@ examples:
     parser.add_argument('--no-validate', action='store_true',
                         help="Skip XPath syntax validation for custom queries")
     args = parser.parse_args()
+
+    # Validate delay arguments
+    if args.delay is not None and args.delay < 0:
+        parser.error("--delay must be non-negative")
+    if args.max_delay is not None and args.max_delay < 0:
+        parser.error("--max-delay must be non-negative")
+    if args.delay is not None and args.max_delay is not None and args.max_delay < args.delay:
+        parser.error("--max-delay must be greater than or equal to --delay")
+
     validated_url = validate_url(args.url)
 
     # Validate custom XPath syntax unless --no-validate is set
