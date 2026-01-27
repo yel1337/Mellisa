@@ -26,7 +26,7 @@ pyOpenSSL==25.0.0
 queuelib==1.7.0
 requests==2.32.4
 requests-file==2.1.0
-Scrapy==2.13.3
+Scrapy==2.13.4
 service-identity==24.2.0
 setuptools==78.1.1
 tldextract==5.1.3

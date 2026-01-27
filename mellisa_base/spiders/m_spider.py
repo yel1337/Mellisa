@@ -40,10 +40,10 @@ class ScrapeParameters(scrapy.Spider):
                     and not line.lstrip().startswith("//")
                 ]
         except FileNotFoundError:
-            self.logger.error(f"File not found: {file_path}")
+            self.logger.error(f"File not found: {Path(file_path).name}")
             return []
         except Exception as e:
-            self.logger.error(f"Error reading {file_path}: {e}")
+            self.logger.error(f"Error reading {Path(file_path).name}: {type(e).__name__}")
             return []
 
     # USE FOR CUSTOM 
@@ -86,36 +86,31 @@ class ScrapeParameters(scrapy.Spider):
             if url:
                 yield response.follow(url, callback=self.parse)
 
-    def parse(self, response=None):
+    def parse(self, response):
         # assumes wordlist.txt is in the same dir as m_spiders.py's parent
         path = Path(__file__).resolve().parent.parent / "wordlist.txt"
         query = Path(__file__).resolve().parent.parent / "page_queries.txt"
         
         # if default args then this will be use
-        # otherwise if custom args is true 
+        # otherwise if custom args is true
         # query_xpath variable will be use instead
         xpaths = self.load_xpath_default(path)
         query_xpath = self.load_xpath_custom(query)
 
-        if isinstance(xpaths, list):
-            xpaths = xpaths[0] if xpaths else ""    
-        elif isinstance(query_xpath, list):
-            query_xpath = query_xpath[0] if query_xpath else ""
-        
         if self.running_custom_flag is True:
             self.value_from_main = True
             extracted_datas_CUSTOM = response.xpath(self.custom_xpath).getall()
-            self_datas = extracted_datas_CUSTOM
             self.datas.extend(extracted_datas_CUSTOM)
 
             load_item = self._add_value_item(extracted_datas_CUSTOM, response)
             yield load_item
         else:
-            extracted_datas = response.xpath(xpaths).getall()
-            self_datas = extracted_datas
-            self.datas.extend(extracted_datas)
+            extracted_datas = []
+            for xpath in xpaths:
+                extracted_datas = response.xpath(xpath).getall()
+                self.datas.extend(extracted_datas)
 
-            load_item = self._add_value_item(extracted_datas, response)
+            load_item = self._add_value_item(self.datas, response)
             yield load_item
 
         from misc.misc_prompts import Misc    

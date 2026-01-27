@@ -7,11 +7,11 @@ from parsel import Selector
 test_urls = ["https://books.toscrape.com",
              "https://quotes.toscrape.com",
              "https://webscraper.io/test-sites/e-commerce/allinone",
-             "https://httpbin.org/html",
+             "https://httpbin.org/#/html",
              "https://www.python.org/jobs/",
              "https://www.scrapethissite.com/pages/forms/",
              "https://news.ycombinator.com/",
-             "https://www.imdb.com/chart/top/",
+             "https://www.scrapethissite.com/pages/simple/",
              "https://www.worldometers.info/world-population/population-by-country/",
              "https://developer.mozilla.org/en-US/docs/Web/XPath"
              ]
