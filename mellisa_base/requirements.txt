@@ -22,7 +22,7 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22
 PyDispatcher==2.0.7
-pyOpenSSL==25.0.0
+pyOpenSSL==26.0.0
 queuelib==1.7.0
 requests==2.32.3
 requests-file==2.1.0
