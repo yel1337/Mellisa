@@ -4,7 +4,7 @@ certifi==2025.1.31
 cffi==1.17.1
 charset-normalizer==3.4.1
 constantly==23.10.4
-cryptography==44.0.2
+cryptography==46.0.5
 cssselect==1.3.0
 defusedxml==0.7.1
 filelock==3.18.0
@@ -22,7 +22,7 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22
 PyDispatcher==2.0.7
-pyOpenSSL==25.0.0
+pyOpenSSL==26.0.0
 queuelib==1.7.0
 requests==2.32.4
 requests-file==2.1.0
