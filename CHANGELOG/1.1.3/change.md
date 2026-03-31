@@ -48,6 +48,7 @@ Documentation Updates
 Files Modified
 * mellisa_base/spiders/m_spider.py (BUG-4 cleanup, UnboundLocalError fix, data accumulation fix, unused variable removal)
 * mellisa_base/mellisa.py (CLI argument validation)
+* mellisa_base/requirements.txt (moved to home folder & updated cffi version to latest)
 * mellisa_base/misc/misc_prompts.py (BUG-2, BUG-3, BUG-5 fixes)
 * mellisa_base/custom/log/log_custom.py (BUG-3 fix)
 * mellisa_base/wordlist.txt (namespace fix)
