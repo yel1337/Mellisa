@@ -32,7 +32,7 @@ This Python script scans web pages to extract potential URL parameters, form fie
 ```bash
 # 1. Clone the repository
 git clone https://github.com/yel1337/mellisa.git
-cd mellisa
+cd Mellisa
 
 # 2. (Recommended) Create and activate a virtual environment
 python3 -m venv mellisa-venv
@@ -52,7 +52,7 @@ pip install -r requirements.txt
 # Usage
 *From the root directory do*
 ```bash
-cd mellisa
+cd Mellisa
 ```
 
 *Inside the directory, make the shell script executable by running:*
