@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-PYTHON_SCRIPT="$SCRIPT_DIR/mellisa_base/mellisa.py"
+PYTHON_SCRIPT="$SCRIPT_DIR/mellisa/mellisa.py"
 FLAG_FILE="$SCRIPT_DIR/.first_run_flag"
 
 if [ $# -eq 0 ]; then
@@ -11,7 +11,7 @@ fi
 
 if [ ! -f "$FLAG_FILE" ]; then
     touch "$FLAG_FILE"
-    python3 -c "from mellisa_base.ascii.description_ascii import mellisa_ascii; print(mellisa_ascii)"
+    python3 -c "from mellisa.ascii.description_ascii import mellisa_ascii; print(mellisa_ascii)"
 fi
 
 (

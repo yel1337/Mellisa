@@ -1,5 +1,5 @@
 import time
-from mellisa import main, run_spider
+from mellisa.mellisa import main, run_spider
 from datetime import datetime
 from typing import Optional
 from spiders.m_spider import ScrapeParameters

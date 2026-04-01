@@ -10,7 +10,7 @@ import sys
 import re
 mellisa = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, mellisa)
-os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'mellisa_base.settings')
+os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'mellisa.settings')
 
 class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
     def start_section(self, heading):

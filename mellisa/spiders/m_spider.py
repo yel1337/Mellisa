@@ -114,7 +114,7 @@ class ScrapeParameters(scrapy.Spider):
             yield load_item
 
         from misc.misc_prompts import Misc    
-        from mellisa import main
+        from mellisa.mellisa import main
         data_len = self.return_len_data()
         datas = self.return_has_data(self.datas)
         misc = Misc(data_len, datas, self.value_from_main, self.args_url)

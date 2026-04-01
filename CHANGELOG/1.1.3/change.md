@@ -8,11 +8,11 @@ Critical Bug Fixes
   - Removed redundant code in m_spider.py that prevented all XPath patterns from being used
   - Default mode now properly processes all 100+ XPath patterns in wordlist
   - Significantly improved parameter detection accuracy from 16.7% to 100% recall
-* Fixed UnboundLocalError and data accumulation in m_spider.py (PR#8 - Copilot Review)
+* Fixed UnboundLocalError and data accumulation in m_spider.py
   - Initialize extracted_datas before loop to prevent crashes with empty wordlists
   - Fixed logic to accumulate all XPath results instead of using only the last one
   - Ensures correct data extraction from all XPath patterns
-* Fixed CLI argument validation in mellisa.py (PR#8 - Copilot Review)
+* Fixed CLI argument validation in mellisa.py
   - Added validation to reject negative --delay and --max-delay values
   - Added logical consistency check ensuring max-delay >= delay
   - Prevents runtime errors from invalid throttling configurations
@@ -27,7 +27,7 @@ Critical Bug Fixes
   - Removed unnecessary function object check in conditional logic in misc_prompts.py
 
 Code Quality Improvements
-* Removed unused variable assignments in m_spider.py (PR#8 - Copilot Review)
+* Removed unused variable assignments in m_spider.py
   - Eliminated unused self_datas assignments for improved code clarity
 * Fixed XPath namespace issue in wordlist.txt
   - Updated SVG href XPath pattern to use namespace-agnostic local-name() approach
@@ -47,10 +47,13 @@ Documentation Updates
 
 Files Modified
 * mellisa_base/spiders/m_spider.py (BUG-4 cleanup, UnboundLocalError fix, data accumulation fix, unused variable removal)
-* mellisa_base/mellisa.py (CLI argument validation)
-* mellisa_base/requirements.txt (moved to home folder & updated cffi version to latest)
-* mellisa_base/misc/misc_prompts.py (BUG-2, BUG-3, BUG-5 fixes)
-* mellisa_base/custom/log/log_custom.py (BUG-3 fix)
-* mellisa_base/wordlist.txt (namespace fix)
-* mellisa_base/tests/wordlist_test.py (fixed test URLs)
+* mellisa/mellisa.py (CLI argument validation)
+* mellisa/requirements.txt (moved to home folder & updated cffi version to latest)
+* mellisa/misc/misc_prompts.py (BUG-2, BUG-3, BUG-5 fixes)
+* mellisa/custom/log/log_custom.py (BUG-3 fix)
+* mellisa/wordlist.txt (namespace fix)
+* mellisa/tests/wordlist_test.py (fixed test URLs)
 * README.md (NetSPI lab documentation update)
+
+Folder Modified
+* mellisa_base/ -> mellisa/ (renamed)
